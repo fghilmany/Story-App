@@ -1,20 +1,25 @@
 package com.fghilmany.mvvmstarterproject.core.data
 
-import com.fghilmany.mvvmstarterproject.core.data.local.entity.EmailEntity
-import com.fghilmany.mvvmstarterproject.core.data.remote.response.EmailResponse
+import com.fghilmany.mvvmstarterproject.core.data.remote.response.BasicResponse
+import com.fghilmany.mvvmstarterproject.core.data.remote.response.LoginResponse
+import com.fghilmany.mvvmstarterproject.core.data.remote.response.StoriesResponse
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface IDataRepository {
 
-    //get online
-    fun getEmailOnline(email: String): Flow<Resource<EmailResponse>>
+    fun doLogin(email: String, password: String): Flow<Resource<LoginResponse>>
 
-    //get online offline
-    fun getEmailOnlineOffline(email: String): Flow<Resource<List<EmailEntity>>>
+    fun doRegister(email: String, password: String, name: String): Flow<Resource<BasicResponse>>
 
-    //get offline
-    fun getEmailOffline(): Flow<List<EmailEntity>>
+    fun getStories(page: String?, size: String?, location: String?): Flow<Resource<StoriesResponse>>
 
-
+    fun addNewStory(
+        file: MultipartBody.Part,
+        description: RequestBody,
+        lat: RequestBody?,
+        lon: RequestBody?
+    ): Flow<Resource<BasicResponse>>
 
 }

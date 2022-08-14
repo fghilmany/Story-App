@@ -1,7 +1,9 @@
 package com.fghilmany.mvvmstarterproject.core.data
 
 import com.fghilmany.mvvmstarterproject.core.data.remote.network.ApiResponse
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 abstract class OnlineBoundResource<RequestType> {

@@ -11,7 +11,7 @@ import com.securepreferences.SecurePreferences
 
 class PreferenceProvider(context: Context) {
 
-    private var pref: SharedPreferences = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+    private var pref: SharedPreferences = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val spec = KeyGenParameterSpec.Builder(
             MasterKey.DEFAULT_MASTER_KEY_ALIAS,
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
@@ -35,30 +35,42 @@ class PreferenceProvider(context: Context) {
         SecurePreferences(context, SHARED_PREFERENCE_PASSWORD, SHARED_PREFERENCE_FILE_NAME)
     }
 
-    private val editor : SharedPreferences.Editor = pref.edit()
+    private val editor: SharedPreferences.Editor = pref.edit()
 
     //save function
-    private fun setString(key: String, value: String?){
+    private fun setString(key: String, value: String?) {
         editor.putString(key, value)
         editor.apply()
     }
 
-    private fun setInt(key: String, value: Int?){
-        editor.putInt(key, value?:0)
+    private fun setInt(key: String, value: Int?) {
+        editor.putInt(key, value ?: 0)
         editor.apply()
     }
 
-    private fun setBoolean(key: String, value: Boolean?){
-        editor.putBoolean(key, value?:false)
+    private fun setBoolean(key: String, value: Boolean?) {
+        editor.putBoolean(key, value ?: false)
         editor.apply()
     }
 
-    //example save data
-    fun setEmail(email: String?){
-        setString(EMAIL_SP_KEY, email)
+    fun setToken(token: String?) {
+        setString(TOKEN_SP_KEY, token)
     }
 
-    //example load data
-    fun getEmail() = pref.getString(EMAIL_SP_KEY, null)
+    fun setUserId(id: String?) {
+        setString(USER_ID_SP_KEY, id)
+    }
+
+    fun setName(name: String?) {
+        setString(NAME_SP_KEY, name)
+    }
+
+    fun getToken() = pref.getString(TOKEN_SP_KEY, null)
+
+    fun getUserId() = pref.getString(USER_ID_SP_KEY, null)
+
+    fun getName() = pref.getString(NAME_SP_KEY, null)
+
+    fun clearPreference() = editor.clear().apply()
 
 }

@@ -1,58 +1,80 @@
 package com.fghilmany.mvvmstarterproject.core.data
 
-import com.fghilmany.mvvmstarterproject.core.data.local.LocalDatasource
-import com.fghilmany.mvvmstarterproject.core.data.local.entity.EmailEntity
 import com.fghilmany.mvvmstarterproject.core.data.remote.RemoteDatasource
 import com.fghilmany.mvvmstarterproject.core.data.remote.network.ApiResponse
-import com.fghilmany.mvvmstarterproject.core.data.remote.response.EmailResponse
+import com.fghilmany.mvvmstarterproject.core.data.remote.response.BasicResponse
+import com.fghilmany.mvvmstarterproject.core.data.remote.response.LoginResponse
+import com.fghilmany.mvvmstarterproject.core.data.remote.response.StoriesResponse
 import com.fghilmany.mvvmstarterproject.core.utils.PreferenceProvider
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
-class DataRepository (
+class DataRepository(
     private val remoteDatasource: RemoteDatasource,
-    private val localDatasource: LocalDatasource,
     private val preferenceProvider: PreferenceProvider
-): IDataRepository {
-
-    //get online
-    override fun getEmailOnline(email: String): Flow<Resource<EmailResponse>> {
-        return object : OnlineBoundResource<EmailResponse>(){
-            override suspend fun createCall(): Flow<ApiResponse<EmailResponse>> {
-                return remoteDatasource.getEmail(email)
+) : IDataRepository {
+    override fun doLogin(email: String, password: String): Flow<Resource<LoginResponse>> {
+        return object : OnlineBoundResource<LoginResponse>() {
+            override suspend fun createCall(): Flow<ApiResponse<LoginResponse>> {
+                return remoteDatasource.doLogin(email, password)
             }
 
-            override fun getResponse(data: EmailResponse) {
-                // if you want get or save response, make it here
+            override fun getResponse(data: LoginResponse) {
+                preferenceProvider.setToken(data.loginResult?.token)
+                preferenceProvider.setUserId(data.loginResult?.userId)
+                preferenceProvider.setName(data.loginResult?.name)
             }
         }.asFlow()
     }
 
-    // get online offline
-    override fun getEmailOnlineOffline(email: String): Flow<Resource<List<EmailEntity>>> {
-        return object : NetworkBoundResource<List<EmailEntity>, EmailResponse>(){
-            override fun loadFromDB(): Flow<List<EmailEntity>> {
-                return localDatasource.getEmail()
+    override fun doRegister(
+        email: String,
+        password: String,
+        name: String
+    ): Flow<Resource<BasicResponse>> {
+        return object : OnlineBoundResource<BasicResponse>() {
+            override suspend fun createCall(): Flow<ApiResponse<BasicResponse>> {
+                return remoteDatasource.doRegister(email, password, name)
             }
 
-            override fun shouldFetch(data: List<EmailEntity>?): Boolean {
-                return data == null || data.isNullOrEmpty()
-            }
+            override fun getResponse(data: BasicResponse) {
 
-            override suspend fun createCall(): Flow<ApiResponse<EmailResponse>> {
-                return remoteDatasource.getEmail(email)
             }
-
-            override suspend fun saveCallResult(data: EmailResponse) {
-                val mapping = arrayListOf<EmailEntity>()
-                localDatasource.insertEmail(mapping)
-            }
-
         }.asFlow()
     }
 
-    // get offline
-    override fun getEmailOffline(): Flow<List<EmailEntity>> {
-        return localDatasource.getEmail()
+    override fun getStories(
+        page: String?,
+        size: String?,
+        location: String?
+    ): Flow<Resource<StoriesResponse>> {
+        return object : OnlineBoundResource<StoriesResponse>() {
+            override suspend fun createCall(): Flow<ApiResponse<StoriesResponse>> {
+                return remoteDatasource.getStories(page, size, location)
+            }
+
+            override fun getResponse(data: StoriesResponse) {
+
+            }
+        }.asFlow()
+    }
+
+    override fun addNewStory(
+        file: MultipartBody.Part,
+        description: RequestBody,
+        lat: RequestBody?,
+        lon: RequestBody?
+    ): Flow<Resource<BasicResponse>> {
+        return object : OnlineBoundResource<BasicResponse>() {
+            override suspend fun createCall(): Flow<ApiResponse<BasicResponse>> {
+                return remoteDatasource.addNewStory(file, description, lat, lon)
+            }
+
+            override fun getResponse(data: BasicResponse) {
+
+            }
+        }.asFlow()
     }
 
 

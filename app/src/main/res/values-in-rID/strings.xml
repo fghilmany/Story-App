@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="check_your_internet_connection">Cek koneksi internet anda</string>
+    <string name="something_wrong">Terjadi kesalahan!</string>
+    <string name="login">Masuk</string>
+    <string name="register">Daftar Akun Baru</string>
+    <string name="or">atau</string>
+    <string name="error_minimum_password">Password minimal 6 karakter</string>
+    <string name="invalid_email">Email Salah</string>
+    <string name="must_be_filled">Harus Diisi</string>
+    <string name="filled_the_form">Isi Formulir</string>
+    <string name="name">Nama</string>
+    <string name="success_register">Berhasil Mendaftar</string>
+    <string name="data_is_empty">Data Kosong</string>
+    <string name="open_camera">Buka Kamera</string>
+    <string name="open_gallery">Buka Galeri</string>
+    <string name="description">Deskripsi</string>
+    <string name="add_new_story">Tambah Cerita Baru</string>
+    <string name="success_add_new_story">Sukses Menambahkan Cerita</string>
+    <string name="not_getting_permission">Tidak mendapatkan permission</string>
+</resources>

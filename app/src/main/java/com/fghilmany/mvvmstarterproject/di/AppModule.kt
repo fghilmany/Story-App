@@ -1,9 +1,15 @@
 package com.fghilmany.mvvmstarterproject.di
 
-import com.fghilmany.mvvmstarterproject.ui.main.MainViewModel
+import com.fghilmany.mvvmstarterproject.ui.add.AddStoryViewModel
+import com.fghilmany.mvvmstarterproject.ui.home.HomeViewModel
+import com.fghilmany.mvvmstarterproject.ui.login.LoginViewModel
+import com.fghilmany.mvvmstarterproject.ui.register.RegisterViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { MainViewModel(get()) }
+    viewModel { LoginViewModel(get()) }
+    viewModel { RegisterViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
+    viewModel { AddStoryViewModel(get()) }
 }
