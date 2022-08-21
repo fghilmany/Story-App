@@ -43,16 +43,6 @@ class PreferenceProvider(context: Context) {
         editor.apply()
     }
 
-    private fun setInt(key: String, value: Int?) {
-        editor.putInt(key, value ?: 0)
-        editor.apply()
-    }
-
-    private fun setBoolean(key: String, value: Boolean?) {
-        editor.putBoolean(key, value ?: false)
-        editor.apply()
-    }
-
     fun setToken(token: String?) {
         setString(TOKEN_SP_KEY, token)
     }
@@ -66,8 +56,6 @@ class PreferenceProvider(context: Context) {
     }
 
     fun getToken() = pref.getString(TOKEN_SP_KEY, null)
-
-    fun getUserId() = pref.getString(USER_ID_SP_KEY, null)
 
     fun getName() = pref.getString(NAME_SP_KEY, null)
 

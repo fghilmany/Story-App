@@ -3,7 +3,7 @@ package com.fghilmany.mvvmstarterproject.ui.detail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.fghilmany.mvvmstarterproject.core.data.remote.response.ListStoryItem
+import com.fghilmany.mvvmstarterproject.core.data.local.entity.StoryEntity
 import com.fghilmany.mvvmstarterproject.databinding.ActivityDetailBinding
 import com.fghilmany.mvvmstarterproject.ui.home.HomeAdapter
 
@@ -17,7 +17,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val extras = intent.extras
-        val data = extras?.getParcelable<ListStoryItem>(HomeAdapter.EXTRA_STORY)
+        val data = extras?.getParcelable<StoryEntity>(HomeAdapter.EXTRA_STORY)
         with(binding) {
             data?.apply {
                 tvName.text = name

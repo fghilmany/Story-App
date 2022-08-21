@@ -6,7 +6,6 @@ import com.fghilmany.mvvmstarterproject.core.data.remote.network.ApiResponse
 import com.fghilmany.mvvmstarterproject.core.data.remote.network.ApiServices
 import com.fghilmany.mvvmstarterproject.core.data.remote.response.BasicResponse
 import com.fghilmany.mvvmstarterproject.core.data.remote.response.LoginResponse
-import com.fghilmany.mvvmstarterproject.core.data.remote.response.StoriesResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -58,25 +57,6 @@ class RemoteDatasource(
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getStories(
-        page: String?,
-        size: String?,
-        location: String?
-    ): Flow<ApiResponse<StoriesResponse>> {
-        return flow {
-            try {
-                val response = apiServices?.getStories(page, size, location)
-                if (response != null) {
-                    emit(ApiResponse.Success(response))
-                } else {
-                    emit(ApiResponse.Empty)
-                }
-            } catch (e: Exception) {
-                emit(exceptionLog(e, "getStories"))
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
     suspend fun addNewStory(
         file: MultipartBody.Part,
         description: RequestBody,
@@ -98,8 +78,6 @@ class RemoteDatasource(
     }
 
     private fun exceptionLog(e: Exception, tagLog: String): ApiResponse.Error {
-        val tag = this::class.java.simpleName
-
         when (e) {
             is SocketTimeoutException -> {
                 Timber.tag(tagLog).e(e.message.toString())

@@ -18,4 +18,6 @@
     <string name="add_new_story">Tambah Cerita Baru</string>
     <string name="success_add_new_story">Sukses Menambahkan Cerita</string>
     <string name="not_getting_permission">Tidak mendapatkan permission</string>
+    <string name="story_image">Gambar Story</string>
+
 </resources>

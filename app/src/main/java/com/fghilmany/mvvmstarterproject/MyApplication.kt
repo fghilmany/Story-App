@@ -1,6 +1,7 @@
 package com.fghilmany.mvvmstarterproject
 
 import android.app.Application
+import com.fghilmany.mvvmstarterproject.core.di.databaseModule
 import com.fghilmany.mvvmstarterproject.core.di.networkModule
 import com.fghilmany.mvvmstarterproject.core.di.repositoryModule
 import com.fghilmany.mvvmstarterproject.di.viewModelModule
@@ -22,6 +23,7 @@ class MyApplication : Application() {
             modules(
                 listOf(
                     networkModule,
+                    databaseModule,
                     repositoryModule,
                     viewModelModule
                 )

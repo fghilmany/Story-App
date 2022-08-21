@@ -1,10 +1,12 @@
 package com.fghilmany.mvvmstarterproject.core.data
 
+import androidx.paging.PagingData
+import com.fghilmany.mvvmstarterproject.core.data.local.entity.StoryEntity
+import com.fghilmany.mvvmstarterproject.core.data.paging.PagingDataSource
 import com.fghilmany.mvvmstarterproject.core.data.remote.RemoteDatasource
 import com.fghilmany.mvvmstarterproject.core.data.remote.network.ApiResponse
 import com.fghilmany.mvvmstarterproject.core.data.remote.response.BasicResponse
 import com.fghilmany.mvvmstarterproject.core.data.remote.response.LoginResponse
-import com.fghilmany.mvvmstarterproject.core.data.remote.response.StoriesResponse
 import com.fghilmany.mvvmstarterproject.core.utils.PreferenceProvider
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -12,6 +14,7 @@ import okhttp3.RequestBody
 
 class DataRepository(
     private val remoteDatasource: RemoteDatasource,
+    private val pagingDataSource: PagingDataSource,
     private val preferenceProvider: PreferenceProvider
 ) : IDataRepository {
     override fun doLogin(email: String, password: String): Flow<Resource<LoginResponse>> {
@@ -44,20 +47,8 @@ class DataRepository(
         }.asFlow()
     }
 
-    override fun getStories(
-        page: String?,
-        size: String?,
-        location: String?
-    ): Flow<Resource<StoriesResponse>> {
-        return object : OnlineBoundResource<StoriesResponse>() {
-            override suspend fun createCall(): Flow<ApiResponse<StoriesResponse>> {
-                return remoteDatasource.getStories(page, size, location)
-            }
-
-            override fun getResponse(data: StoriesResponse) {
-
-            }
-        }.asFlow()
+    override fun getStories(): Flow<PagingData<StoryEntity>> {
+        return pagingDataSource.getStories()
     }
 
     override fun addNewStory(

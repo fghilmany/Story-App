@@ -16,6 +16,7 @@ import com.fghilmany.mvvmstarterproject.core.utils.PreferenceProvider
 import com.fghilmany.mvvmstarterproject.databinding.ActivityHomeBinding
 import com.fghilmany.mvvmstarterproject.ui.add.AddStoryActivity
 import com.fghilmany.mvvmstarterproject.ui.login.LoginActivity
+import com.fghilmany.mvvmstarterproject.ui.paging.LoadingStateAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -25,11 +26,6 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModel()
 
     private val adapter = HomeAdapter()
-
-    companion object {
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        private const val REQUEST_CODE_PERMISSIONS = 10
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,31 +45,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        viewModel.getStories().observe(this) {
-            binding.viewLoading.root.visibility = View.VISIBLE
-            when (it) {
-                is Resource.Loading -> {
-                    binding.viewLoading.root.visibility = View.VISIBLE
-                }
-                is Resource.Success -> {
-                    binding.viewLoading.root.visibility = View.GONE
-                    if (it.data?.listStory.isNullOrEmpty())
-                        binding.groupEmpty.visibility = View.VISIBLE
-                    else
-                        binding.groupEmpty.visibility = View.GONE
-                    adapter.setList(it.data?.listStory)
-                    adapter.notifyItemRangeInserted(0, (it.data?.listStory?.size ?: 1) - 1)
-                    binding.rvStory.apply {
-                        layoutManager = GridLayoutManager(this@HomeActivity, 2)
-                        adapter = this@HomeActivity.adapter
+        binding.rvStory.apply {
+            layoutManager = GridLayoutManager(this@HomeActivity, 2)
+            adapter =
+                this@HomeActivity.adapter.withLoadStateFooter(
+                    footer = LoadingStateAdapter{
+                        this@HomeActivity.adapter.retry()
                     }
-                }
-                is Resource.Error -> {
-                    binding.viewLoading.root.visibility = View.GONE
-                    binding.groupEmpty.visibility = View.VISIBLE
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-            }
+                )
+        }
+        viewModel.getStories().observe(this) {
+            adapter.submitData(lifecycle, it)
         }
 
     }
@@ -124,6 +106,11 @@ class HomeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getData()
+    }
+
+    companion object {
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
 }

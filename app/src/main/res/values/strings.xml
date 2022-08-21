@@ -22,4 +22,6 @@
     <string name="success_add_new_story">Success Added New Story</string>
     <string name="not_getting_permission">Not getting permission</string>
     <string name="appwidget_text" translatable="false">Story App Widget</string>
+    <string name="story_image">Story Image</string>
+    <string name="retry">Retry</string>
 </resources>

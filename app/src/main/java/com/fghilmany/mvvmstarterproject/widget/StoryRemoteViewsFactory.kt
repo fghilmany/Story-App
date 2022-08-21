@@ -43,18 +43,7 @@ class StoryRemoteViewsFactory(private val mContext: Context) :
 
 
     override fun onCreate() {
-        viewModel.getStories().observe(this) {
-            when (it) {
-                is Resource.Loading -> {}
-                is Resource.Success -> {
-                    listDataItem.addAll(it.data?.listStory ?: arrayListOf())
-                    listDataItem.forEach { item ->
-                        widgetItems.add(getBitmapFromURL(item.photoUrl ?: ""))
-                    }
-                }
-                is Resource.Error -> {}
-            }
-        }
+        // TODO: Cari cara buat get data dari lokal di widget 
     }
 
     override fun onDataSetChanged() {

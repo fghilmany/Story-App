@@ -6,25 +6,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.fghilmany.mvvmstarterproject.core.data.remote.response.ListStoryItem
+import com.fghilmany.mvvmstarterproject.core.data.local.entity.StoryEntity
 import com.fghilmany.mvvmstarterproject.databinding.ItemHomeBinding
 import com.fghilmany.mvvmstarterproject.ui.detail.DetailActivity
+import com.google.gson.Gson
+import timber.log.Timber
 
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
-
-    private val listStory = arrayListOf<ListStoryItem>()
-    fun setList(list: List<ListStoryItem>?) {
-        if (list != null) {
-            listStory.clear()
-            listStory.addAll(list)
-        }
-    }
-
-    companion object {
-        const val EXTRA_STORY = "extra_story"
-    }
+class HomeAdapter :
+    PagingDataAdapter<StoryEntity, HomeAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,16 +25,14 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val result = listStory[position]
+        val result = getItem(position)
         holder.bind(result)
     }
 
-    override fun getItemCount(): Int = listStory.size
-
     class ViewHolder(private val binding: ItemHomeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: ListStoryItem) {
+        fun bind(result: StoryEntity?) {
             with(binding) {
-                result.apply {
+                result?.apply {
                     tvStory.text = name
                     Glide.with(binding.root)
                         .load(photoUrl)
@@ -68,4 +59,18 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
         }
 
     }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryEntity>() {
+            override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
+        const val EXTRA_STORY = "extra_story"
+    }
+
 }
