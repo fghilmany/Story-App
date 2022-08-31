@@ -6,8 +6,8 @@ import com.fghilmany.mvvmstarterproject.core.data.DataRepository
 
 class LoginViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
-    private var email = ""
-    private var password = ""
+    var email = ""
+    var password = ""
 
     fun setLoginParam(email: String, password: String) {
         this.email = email

@@ -3,6 +3,7 @@ package com.fghilmany.mvvmstarterproject.core.di
 import androidx.room.Room
 import com.fghilmany.mvvmstarterproject.BuildConfig
 import com.fghilmany.mvvmstarterproject.core.data.DataRepository
+import com.fghilmany.mvvmstarterproject.core.data.local.LocalDatasource
 import com.fghilmany.mvvmstarterproject.core.data.local.room.Database
 import com.fghilmany.mvvmstarterproject.core.data.paging.PagingDataSource
 import com.fghilmany.mvvmstarterproject.core.data.remote.RemoteDatasource
@@ -85,7 +86,8 @@ val networkModule = module {
 
 val repositoryModule = module {
     single { RemoteDatasource(get(), get()) }
+    single { LocalDatasource(get()) }
     single { PreferenceProvider(get()) }
-    single { DataRepository(get(), get(), get()) }
+    single { DataRepository(get(), get(), get(), get()) }
     single { PagingDataSource(get(), get()) }
 }

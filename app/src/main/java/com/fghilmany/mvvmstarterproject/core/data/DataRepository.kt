@@ -1,6 +1,7 @@
 package com.fghilmany.mvvmstarterproject.core.data
 
 import androidx.paging.PagingData
+import com.fghilmany.mvvmstarterproject.core.data.local.LocalDatasource
 import com.fghilmany.mvvmstarterproject.core.data.local.entity.StoryEntity
 import com.fghilmany.mvvmstarterproject.core.data.paging.PagingDataSource
 import com.fghilmany.mvvmstarterproject.core.data.remote.RemoteDatasource
@@ -14,10 +15,11 @@ import okhttp3.RequestBody
 
 class DataRepository(
     private val remoteDatasource: RemoteDatasource,
+    private val localDatasource: LocalDatasource,
     private val pagingDataSource: PagingDataSource,
     private val preferenceProvider: PreferenceProvider
 ) : IDataRepository {
-    override fun doLogin(email: String, password: String): Flow<Resource<LoginResponse>> {
+    override fun    doLogin(email: String, password: String): Flow<Resource<LoginResponse>> {
         return object : OnlineBoundResource<LoginResponse>() {
             override suspend fun createCall(): Flow<ApiResponse<LoginResponse>> {
                 return remoteDatasource.doLogin(email, password)
@@ -66,6 +68,10 @@ class DataRepository(
 
             }
         }.asFlow()
+    }
+
+    override fun getStoriesFromDb(): Flow<List<StoryEntity>> {
+        return localDatasource.getStories()
     }
 
 

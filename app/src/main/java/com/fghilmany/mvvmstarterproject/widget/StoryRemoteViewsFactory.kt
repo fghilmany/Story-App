@@ -11,12 +11,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.fghilmany.mvvmstarterproject.R
-import com.fghilmany.mvvmstarterproject.core.data.Resource
 import com.fghilmany.mvvmstarterproject.core.data.remote.response.ListStoryItem
 import com.fghilmany.mvvmstarterproject.ui.home.HomeViewModel
 import com.fghilmany.mvvmstarterproject.widget.StoryAppWidget.Companion.EXTRA_ITEM
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream

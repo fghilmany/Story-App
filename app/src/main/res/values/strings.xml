@@ -24,4 +24,6 @@
     <string name="appwidget_text" translatable="false">Story App Widget</string>
     <string name="story_image">Story Image</string>
     <string name="retry">Retry</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="empty_location">Lokasi tidak ada</string>
 </resources>

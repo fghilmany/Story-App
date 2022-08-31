@@ -16,8 +16,9 @@ import com.fghilmany.mvvmstarterproject.core.utils.PreferenceProvider
 import com.fghilmany.mvvmstarterproject.databinding.ActivityHomeBinding
 import com.fghilmany.mvvmstarterproject.ui.add.AddStoryActivity
 import com.fghilmany.mvvmstarterproject.ui.login.LoginActivity
+import com.fghilmany.mvvmstarterproject.ui.maps.MapsActivity
 import com.fghilmany.mvvmstarterproject.ui.paging.LoadingStateAdapter
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
 
@@ -74,6 +75,13 @@ class HomeActivity : AppCompatActivity() {
 
             fabAddNewStory.setOnClickListener {
                 Intent(this@HomeActivity, AddStoryActivity::class.java)
+                    .apply {
+                        startActivity(this)
+                    }
+            }
+
+            ibMaps.setOnClickListener {
+                Intent(this@HomeActivity, MapsActivity::class.java)
                     .apply {
                         startActivity(this)
                     }

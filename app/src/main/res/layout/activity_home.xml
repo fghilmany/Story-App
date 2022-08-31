@@ -28,7 +28,7 @@
         android:maxLines="2"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@+id/ib_logout"
+        app:layout_constraintEnd_toStartOf="@+id/ib_maps"
         app:layout_constraintStart_toEndOf="@+id/tv_hai"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/full_names" />
@@ -42,6 +42,18 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ib_maps"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_outline_location_on_24"
+        android:background="@color/flash_white"
+        android:scaleType="fitXY"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toStartOf="@+id/ib_logout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View

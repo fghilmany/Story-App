@@ -25,4 +25,6 @@ interface IDataRepository {
         lon: RequestBody?
     ): Flow<Resource<BasicResponse>>
 
+    fun getStoriesFromDb(): Flow<List<StoryEntity>>
+
 }

@@ -12,7 +12,7 @@ import com.fghilmany.mvvmstarterproject.R
 import com.fghilmany.mvvmstarterproject.core.data.Resource
 import com.fghilmany.mvvmstarterproject.databinding.ActivityRegisterBinding
 import com.fghilmany.mvvmstarterproject.ui.custom.CustomTextInputEditText
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 

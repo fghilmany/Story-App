@@ -7,11 +7,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.fghilmany.mvvmstarterproject.core.data.local.entity.RemoteKeys
 import com.fghilmany.mvvmstarterproject.core.data.local.entity.StoryEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface Dao {
     @Query("SELECT * FROM story_table")
-    fun getAllStories(): PagingSource<Int, StoryEntity>
+    fun getPagingStories(): PagingSource<Int, StoryEntity>
+
+    @Query("SELECT * FROM story_table")
+    fun getAllStories(): Flow<List<StoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStory(storyEntity: List<StoryEntity>?)

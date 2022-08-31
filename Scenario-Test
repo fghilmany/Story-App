@@ -1,0 +1,117 @@
+Unit Testing
+1)	Login View Model
+    a)	Ketika berhasil Login
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)	    Memastikan nilai yang didapatkan Resource.Success()
+        v)	    Memastikan nilai yang didapatkan bukan Resource.Error()
+        vi)	    Memastikan status error false
+    b)	Ketika gagal login
+        i)	    Memastikan nilai yang didapatkan bukan Resource.Success()
+        ii)	    Memastikan nilai yang didapatkan Resource.Error()
+        iii)	Memastikan response null
+        iv)     Memastikan pesan exception tidak null
+        v)      Memastikan response sesuai dengan expectedResponse
+2)	Register View Model
+    a)	Ketika berhasil register
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)	    Memastikan nilai yang didapatkan Resource.Success()
+        v)	    Memastikan nilai yang didapatkan bukan Resource.Error()
+        vi)	    Memastikan status error false
+    b)	Ketika gagal register
+        i)	    Memastikan nilai yang didapatkan bukan Resource.Success()
+        ii)	    Memastikan nilai yang didapatkan Resource.Error()
+        iii)	Memastikan response null
+        iv)     Memastikan pesan exception tidak null
+        v)      Memastikan response sesuai dengan expectedResponse
+3)	Home View Model
+    a)	Ketika story berhasil di dapatkan
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)     Memastikan banyak data sama dengan banyak data dummy
+4)	Add Story View Model
+    a)	Ketika story berhasil ditambahkan
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)	    Memastikan nilai yang didapatkan Resource.Success()
+        v)	    Memastikan nilai yang didapatkan bukan Resource.Error()
+        vi)	    Memastikan status error false
+    b)	Ketika story gagal ditambahkan
+        i)	    Memastikan nilai yang didapatkan bukan Resource.Success()
+        ii)	    Memastikan nilai yang didapatkan Resource.Error()
+        iii)	Memastikan response null
+        iv)     Memastikan pesan exception tidak null
+        v)      Memastikan response sesuai dengan expectedResponse
+5)	Maps View Model
+    a)	Berhasil mendapatkan data story
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan data tidak null
+        iv) 	Memastikan data tidak kosong
+        v)	    Memastikan banyak data sama dengan banyak data dummy
+    b)	Ketika gagal mendapatkan data story
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan data tidak null
+        iv)     Memastikan data kosong
+6)	Data Repository
+    a)	Berhasil melakukan login
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)	    Memastikan nilai yang didapatkan Resource.Success()
+        v)	    Memastikan nilai yang didapatkan bukan Resource.Error()
+        vi)	    Memastikan status error false
+        vii)	Memastikan Token di simpan
+    b)	Gagal melakukan login
+        i)	    Memastikan nilai yang didapatkan bukan Resource.Success()
+        ii)	    Memastikan nilai yang didapatkan Resource.Error()
+        iii)	Memastikan response null
+        iv)     Memastikan pesan exception tidak null
+        v)      Memastikan response sesuai dengan expectedResponse
+        v)	    Memastikan Token tidak ada atau kosong
+    c)	Berhasil melakukan register
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)	    Memastikan nilai yang didapatkan Resource.Success()
+        v)	    Memastikan nilai yang didapatkan bukan Resource.Error()
+        vi)	    Memastikan status error false
+    d)	Gagal melakukan register
+        i)	    Memastikan nilai yang didapatkan bukan Resource.Success()
+        ii)	    Memastikan nilai yang didapatkan Resource.Error()
+        iii)	Memastikan response tidak null
+        iv)     Memastikan pesan exception tidak null
+        v)      Memastikan response sesuai dengan expectedResponse
+    e)	Berhasil mendapatkan data story dengan paging
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)	    Memastikan nilai yang didapatkan Resource.Success()
+        v)	    Memastikan nilai yang didapatkan bukan Resource.Error()
+        vi)	    Memastikan status error false
+    f)	Berhasil mendapatkan data story dari local DB
+        i)	    Memastikan nilai yang didapatkan bukan Resource.Success()
+        ii)	    Memastikan nilai yang didapatkan Resource.Error()
+        iii)	Memastikan response tidak null
+        iv)     Memastikan pesan exception tidak null
+        v)      Memastikan response sesuai dengan expectedResponse
+    g)	Berhasil menambahkan data story
+        i)	    Memastikan response sesuai dengan expectedResponse
+        ii)	    Memastikan metode di class repository terpanggil
+        iii)	Memastikan response tidak null
+        iv)	    Memastikan nilai yang didapatkan Resource.Success()
+        v)	    Memastikan nilai yang didapatkan bukan Resource.Error()
+        vi)	    Memastikan status error false
+    h)	Gagal menambahkan data story
+        i)	    Memastikan nilai yang didapatkan bukan Resource.Success()
+        ii)	    Memastikan nilai yang didapatkan Resource.Error()
+        iii)	Memastikan response tidak null
+        iv)     Memastikan pesan exception tidak null
+        v)      Memastikan response sesuai dengan expectedResponse
+

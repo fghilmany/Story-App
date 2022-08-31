@@ -24,7 +24,7 @@ class PagingDataSource(
                 StoryRemoteMediator(apiServices, database)
             ,
             pagingSourceFactory = {
-                database.dao().getAllStories()
+                database.dao().getPagingStories()
             }
         ).flow
     }

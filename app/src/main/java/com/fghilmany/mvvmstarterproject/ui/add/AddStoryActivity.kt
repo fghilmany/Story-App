@@ -1,10 +1,13 @@
 package com.fghilmany.mvvmstarterproject.ui.add
 
+import android.Manifest
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,18 +17,25 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.fghilmany.mvvmstarterproject.R
 import com.fghilmany.mvvmstarterproject.core.data.Resource
 import com.fghilmany.mvvmstarterproject.databinding.ActivityAddStoryBinding
 import com.fghilmany.mvvmstarterproject.ui.custom.CustomTextInputEditText
 import com.fghilmany.mvvmstarterproject.utils.CameraUtils
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -38,6 +48,9 @@ class AddStoryActivity : AppCompatActivity() {
     private val viewModel: AddStoryViewModel by viewModel()
 
     private var getFile: File? = null
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var location: Location? = null
 
     private lateinit var currentPhotoPath: String
     private val launcherIntentCamera = registerForActivityResult(
@@ -67,6 +80,8 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         with(binding) {
             btCamera.setOnClickListener {
                 openCamera()
@@ -87,7 +102,17 @@ class AddStoryActivity : AppCompatActivity() {
                     file.name,
                     requestImageFile
                 )
-                viewModel.setStoryParam(imageMultipart, description)
+                val lat: RequestBody?
+                val lon: RequestBody?
+                if (location != null){
+                    lat = location?.latitude.toString().toRequestBody("text/plain".toMediaType())
+                    lon = location?.longitude.toString().toRequestBody("text/plain".toMediaType())
+                }else{
+                    Toast.makeText(this@AddStoryActivity, resources.getString(R.string.empty_location), Toast.LENGTH_SHORT)
+                        .show()
+                    return@setOnClickListener
+                }
+                viewModel.setStoryParam(imageMultipart, description, lat, lon)
                 viewModel.postStory().observe(this@AddStoryActivity) {
                     when (it) {
                         is Resource.Loading -> {
@@ -169,5 +194,58 @@ class AddStoryActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getLocation()
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getLocation()
+                }
+                else -> {
+                    // No location access granted.
+                }
+            }
+        }
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getLocation() {
+        if  (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ){
+            fusedLocationClient.lastLocation.addOnSuccessListener { loc: Location? ->
+                if (loc != null) {
+                    this.location = loc
+                } else {
+                    Toast.makeText(
+                        this, getString(R.string.empty_location), Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
     }
 }

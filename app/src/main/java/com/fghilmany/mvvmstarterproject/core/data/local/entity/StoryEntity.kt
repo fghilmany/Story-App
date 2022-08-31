@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "story_table")
-data class StoryEntity(
+data class  StoryEntity(
     @ColumnInfo(name = "photoUrl")
     val photoUrl: String? = null,
 

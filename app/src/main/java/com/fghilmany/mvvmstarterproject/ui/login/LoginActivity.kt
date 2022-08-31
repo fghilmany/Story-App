@@ -15,7 +15,7 @@ import com.fghilmany.mvvmstarterproject.databinding.ActivityLoginBinding
 import com.fghilmany.mvvmstarterproject.ui.custom.CustomTextInputEditText
 import com.fghilmany.mvvmstarterproject.ui.home.HomeActivity
 import com.fghilmany.mvvmstarterproject.ui.register.RegisterActivity
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
 
